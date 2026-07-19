@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.xyplugin'
+version = '2.2'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    // Paper API 仓库（提供完整依赖）
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    // 备用仓库
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    // 使用 Paper API，完全兼容 Spigot 1.12.2
+    compileOnly 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
+
+    // 本地 MythicMobs 付费版 4.11.1
+    compileOnly files('libs/MythicMobs-4.11.1.jar')
+    // 如果您有 Cast 拓展，取消注释下一行
+    // compileOnly files('libs/MythicMobsCast-4.11.1.jar')
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

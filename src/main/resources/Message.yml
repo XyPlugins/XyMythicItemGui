@@ -1,0 +1,14 @@
+# 系统前缀（支持颜色代码 &）
+prefix: "&7[&bXyGui&7] "
+
+messages:
+  no-permission: "&c你没有权限执行此操作！"
+  search-prompt: "&a请输入搜索关键词（输入 cancel 取消）"
+  search-cancelled: "&7已取消搜索。"
+  search-usage: "&c用法: /xygui i search <关键词>"
+  search-result: "&a已搜索关键词：&f%keyword%"
+  item-received: "&a你获得了 %item% &a× &f%amount%"
+  mob-received: "&a你获得了 %mob% &a怪物蛋 × &f%amount%"
+  mob-search-not-supported: "&c怪物图鉴暂不支持搜索。"
+  inventory-full: "&c你的背包已满！"
+  reload-success: "&a配置重载成功！"

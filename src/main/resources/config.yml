@@ -1,0 +1,43 @@
+# 插件设置
+plugins:
+  prefix: "&7[&6XyGui&7]"
+
+# 点击领取数量（0 表示禁用该点击方式）
+click-amounts:
+  left: 1
+  right: 1
+  middle: 1
+  shift_left: 10
+  shift_right: 10
+
+# 物品排序设置
+sort:
+  enabled: true
+  by: "display"                # display: 按显示名, internal: 按内部名
+  order: "asc"                 # asc: 升序, desc: 降序
+  mob:
+    enabled: true
+    by: "display"              # display: 按显示名, internal: 按内部名
+    order: "asc"               # asc: 升序, desc: 降序
+
+# GUI 设置
+gui:
+  menu-title: "&6&lXyGui 总菜单"
+  title: "&6&l物品展示"
+  mob-title: "&6&l怪物图鉴"
+  size: 54
+  items-per-page: 28
+  border:
+    material: "STAINED_GLASS_PANE"
+    data: 7
+    name: " "
+  item-display:
+    show-lore: true
+
+# 搜索设置
+search:
+  by-display-name: true
+  by-internal-name: true
+  by-lore: false
+
+search-timeout-seconds: 30
