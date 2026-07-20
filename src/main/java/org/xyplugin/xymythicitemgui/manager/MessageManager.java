@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class MessageManager {
 
+    private static final String DEFAULT_PREFIX = "&7[&bXyGui&7] ";
+
     private static MessageManager instance;
     private File messageFile;
     private FileConfiguration messageConfig;
@@ -42,7 +44,7 @@ public class MessageManager {
             messageConfig.setDefaults(defConfig);
         }
 
-        prefix = ChatColor.translateAlternateColorCodes('&', messageConfig.getString("prefix", "&7[&bXyGui&7] "));
+        prefix = colorizePrefix(messageConfig.getString("prefix", DEFAULT_PREFIX));
 
         messages.clear();
         if (defConfig != null) {
@@ -73,5 +75,18 @@ public class MessageManager {
 
     public String getMessage(String key) {
         return messages.getOrDefault(key, "§c未知消息: " + key);
+    }
+
+    private String colorizePrefix(String value) {
+        if (value == null || value.trim().isEmpty() || hasBrokenEncoding(value)) {
+            XyMythicItemGui.getInstance().getLogger().warning(
+                    "Message.yml 中的 prefix 无效或疑似乱码，已使用默认前缀。");
+            value = DEFAULT_PREFIX;
+        }
+        return ChatColor.translateAlternateColorCodes('&', value);
+    }
+
+    private boolean hasBrokenEncoding(String value) {
+        return value.contains("�") || value.contains("搂");
     }
 }

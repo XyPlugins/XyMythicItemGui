@@ -1,4 +1,5 @@
 # 插件设置
+# 聊天消息前缀请在 Message.yml 的 prefix 中修改。
 plugins:
   prefix: "&7[&6XyGui&7]"
 

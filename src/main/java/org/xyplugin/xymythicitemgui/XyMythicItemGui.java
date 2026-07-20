@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.xyplugin.xymythicitemgui.command.MainCommand;
 import org.xyplugin.xymythicitemgui.listener.GuiListener;
+import org.xyplugin.xymythicitemgui.listener.MythicReloadListener;
 import org.xyplugin.xymythicitemgui.manager.ConfigManager;
 import org.xyplugin.xymythicitemgui.manager.ItemCache;
 import org.xyplugin.xymythicitemgui.manager.MessageManager;
@@ -33,6 +34,7 @@ public class XyMythicItemGui extends JavaPlugin {
 
         getCommand("xygui").setExecutor(new MainCommand());
         Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
+        Bukkit.getPluginManager().registerEvents(new MythicReloadListener(), this);
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this,
                 () -> SessionManager.getInstance().cleanExpiredSessions(), 0L, 600L);

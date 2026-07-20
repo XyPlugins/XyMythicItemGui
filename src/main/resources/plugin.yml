@@ -1,5 +1,5 @@
 name: XyMythicItemGui
-version: '2.2'
+version: '2.3'
 main: org.xyplugin.xymythicitemgui.XyMythicItemGui
 api-version: '1.12'
 depend: [MythicMobs]

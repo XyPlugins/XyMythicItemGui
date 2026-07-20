@@ -6,25 +6,20 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.xyplugin.xymythicitemgui.XyMythicItemGui;
 import org.xyplugin.xymythicitemgui.gui.MainGui;
 import org.xyplugin.xymythicitemgui.gui.MenuGui;
 import org.xyplugin.xymythicitemgui.gui.MobGui;
 import org.xyplugin.xymythicitemgui.gui.SearchGui;
-import org.xyplugin.xymythicitemgui.manager.ConfigManager;
 import org.xyplugin.xymythicitemgui.manager.ItemCache;
-import org.xyplugin.xymythicitemgui.manager.MessageManager;
-import org.xyplugin.xymythicitemgui.manager.MobManager;
+import org.xyplugin.xymythicitemgui.manager.ReloadManager;
 import org.xyplugin.xymythicitemgui.utils.MessageUtil;
 
 public class MainCommand implements CommandExecutor {
 
-    private final ConfigManager config = ConfigManager.getInstance();
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player && !sender.hasPermission("xygui.admin")) {
-            sender.sendMessage("§c你没有权限使用此命令");
+            MessageUtil.send(sender, "no-permission");
             return true;
         }
 
@@ -34,7 +29,7 @@ public class MainCommand implements CommandExecutor {
                 return true;
             }
             if (!args[0].equalsIgnoreCase("reload") && !args[0].equalsIgnoreCase("give")) {
-                sender.sendMessage("§c控制台只能使用 /xygui reload 和 /xygui give");
+                MessageUtil.send(sender, "console-limited");
                 return true;
             }
         }
@@ -76,12 +71,7 @@ public class MainCommand implements CommandExecutor {
                 break;
 
             case "reload":
-                XyMythicItemGui.getInstance().reloadConfig();
-                config.loadConfig();
-                ItemCache.getInstance().reload();
-                MobManager.getInstance().reload();
-                MessageManager.getInstance().reload();
-                sender.sendMessage("§a配置、物品缓存、怪物缓存和消息文件已重载");
+                ReloadManager.getInstance().reloadMythicThenXyGui(sender);
                 break;
 
             case "give":
@@ -126,12 +116,12 @@ public class MainCommand implements CommandExecutor {
 
     private void handleGive(CommandSender sender, String[] args) {
         if (args.length < 3) {
-            sender.sendMessage("§c用法: /xygui give <玩家名> <物品名> [数量]");
+            MessageUtil.send(sender, "give-usage");
             return;
         }
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage("§c目标玩家不在线或不存在");
+            MessageUtil.send(sender, "player-not-found");
             return;
         }
         String itemName = args[2];
@@ -141,30 +131,33 @@ public class MainCommand implements CommandExecutor {
         }
         io.lumine.xikage.mythicmobs.items.MythicItem mmItem = ItemCache.getInstance().getItem(itemName);
         if (mmItem == null) {
-            sender.sendMessage("§c找不到名为 '" + itemName + "' 的 MythicMobs 物品");
+            MessageUtil.send(sender, "item-not-found", "%item%", itemName);
             return;
         }
         ItemStack stack = ItemCache.getInstance().getItemStack(itemName);
         if (stack == null) {
-            sender.sendMessage("§c生成物品失败，请检查物品配置");
+            MessageUtil.send(sender, "item-generate-failed");
             return;
         }
         stack.setAmount(amount);
         if (target.getInventory().firstEmpty() == -1) {
             if (sender instanceof Player) MessageUtil.send((Player) sender, "inventory-full");
-            else sender.sendMessage("§c目标玩家背包已满！");
+            else MessageUtil.send(sender, "inventory-full");
             return;
         }
         target.getInventory().addItem(stack);
         MessageUtil.send(target, "item-received",
                 "%item%", mmItem.getDisplayName(),
                 "%amount%", String.valueOf(amount));
-        sender.sendMessage("§a成功将 §6" + amount + " 个 §6" + itemName + " §a给予 §6" + target.getName());
+        MessageUtil.send(sender, "give-success",
+                "%amount%", String.valueOf(amount),
+                "%item%", itemName,
+                "%player%", target.getName());
     }
 
     private Player requirePlayer(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§c该命令仅玩家可用");
+            MessageUtil.send(sender, "only-player");
             return null;
         }
         return (Player) sender;
@@ -185,12 +178,12 @@ public class MainCommand implements CommandExecutor {
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage("§6§l=== XyMythicItemGui 帮助 ===");
-        sender.sendMessage("§e/xygui open §7打开总 GUI");
-        sender.sendMessage("§e/xygui i open [页码] §7打开物品 GUI");
-        sender.sendMessage("§e/xygui i search <关键词> §7搜索物品");
-        sender.sendMessage("§e/xygui e open [页码] §7打开怪物蛋 GUI");
-        sender.sendMessage("§e/xygui give <玩家> <物品名> [数量] §7直接给予物品");
-        sender.sendMessage("§e/xygui reload §7重载配置和缓存");
+        MessageUtil.sendRaw(sender, "§6§l=== XyMythicItemGui 帮助 ===");
+        MessageUtil.sendRaw(sender, "§e/xygui open §7打开总 GUI");
+        MessageUtil.sendRaw(sender, "§e/xygui i open [页码] §7打开物品 GUI");
+        MessageUtil.sendRaw(sender, "§e/xygui i search <关键词> §7搜索物品");
+        MessageUtil.sendRaw(sender, "§e/xygui e open [页码] §7打开怪物蛋 GUI");
+        MessageUtil.sendRaw(sender, "§e/xygui give <玩家> <物品名> [数量] §7直接给予物品");
+        MessageUtil.sendRaw(sender, "§e/xygui reload §7重载 MythicMobs 并同步刷新 XyGui");
     }
 }
