@@ -1,5 +1,5 @@
 name: XyMythicItemGui
-version: '2.3'
+version: '2.4'
 main: org.xyplugin.xymythicitemgui.XyMythicItemGui
 api-version: '1.12'
 depend: [MythicMobs]
@@ -8,7 +8,7 @@ author: YourName
 commands:
   xygui:
     description: XyMythicItemGui 主命令
-    usage: /xygui [open|i|e|search|give|reload]
+    usage: /xygui [open|i|e|search|give|update|reload]
     aliases: [xmi]
 
 permissions:

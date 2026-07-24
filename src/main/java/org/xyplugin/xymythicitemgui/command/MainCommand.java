@@ -11,6 +11,7 @@ import org.xyplugin.xymythicitemgui.gui.MenuGui;
 import org.xyplugin.xymythicitemgui.gui.MobGui;
 import org.xyplugin.xymythicitemgui.gui.SearchGui;
 import org.xyplugin.xymythicitemgui.manager.ItemCache;
+import org.xyplugin.xymythicitemgui.manager.ItemUpdateManager;
 import org.xyplugin.xymythicitemgui.manager.ReloadManager;
 import org.xyplugin.xymythicitemgui.utils.MessageUtil;
 
@@ -28,7 +29,9 @@ public class MainCommand implements CommandExecutor {
                 sendHelp(sender);
                 return true;
             }
-            if (!args[0].equalsIgnoreCase("reload") && !args[0].equalsIgnoreCase("give")) {
+            if (!args[0].equalsIgnoreCase("reload")
+                    && !args[0].equalsIgnoreCase("give")
+                    && !args[0].equalsIgnoreCase("update")) {
                 MessageUtil.send(sender, "console-limited");
                 return true;
             }
@@ -78,11 +81,46 @@ public class MainCommand implements CommandExecutor {
                 handleGive(sender, args);
                 break;
 
+            case "update":
+                handleUpdateCommand(sender, args);
+                break;
+
             default:
                 sendHelp(sender);
                 break;
         }
         return true;
+    }
+
+    private void handleUpdateCommand(CommandSender sender, String[] args) {
+        if (args.length < 3) {
+            MessageUtil.send(sender, "update-usage");
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(args[2]);
+        if (target == null) {
+            MessageUtil.send(sender, "player-not-found");
+            return;
+        }
+
+        if (args[1].equalsIgnoreCase("check")) {
+            int amount = ItemUpdateManager.getInstance().scanPlayerNow(target, false);
+            MessageUtil.send(sender, "update-check-result",
+                    "%player%", target.getName(),
+                    "%amount%", String.valueOf(amount));
+            return;
+        }
+
+        if (args[1].equalsIgnoreCase("scan")) {
+            int amount = ItemUpdateManager.getInstance().scanPlayerNow(target, true);
+            MessageUtil.send(sender, "update-scan-result",
+                    "%player%", target.getName(),
+                    "%amount%", String.valueOf(amount));
+            return;
+        }
+
+        MessageUtil.send(sender, "update-usage");
     }
 
     private void handleItemCommand(CommandSender sender, String[] args) {
@@ -184,6 +222,9 @@ public class MainCommand implements CommandExecutor {
         MessageUtil.sendRaw(sender, "§e/xygui i search <关键词> §7搜索物品");
         MessageUtil.sendRaw(sender, "§e/xygui e open [页码] §7打开怪物蛋 GUI");
         MessageUtil.sendRaw(sender, "§e/xygui give <玩家> <物品名> [数量] §7直接给予物品");
+        MessageUtil.sendRaw(sender, "§e/xygui update check <玩家> §7预览可更新物品数量");
+        MessageUtil.sendRaw(sender, "§e/xygui update scan <玩家> §7立即更新玩家身上物品");
         MessageUtil.sendRaw(sender, "§e/xygui reload §7重载 MythicMobs 并同步刷新 XyGui");
     }
 }
+

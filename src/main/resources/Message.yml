@@ -1,10 +1,10 @@
-# 系统前缀（支持颜色代码 &）
+﻿# 系统前缀（支持颜色代码 &）
 prefix: "&7[&bXyGui&7] "
 
 messages:
   no-permission: "&c你没有权限执行此操作！"
   only-player: "&c该命令仅玩家可用。"
-  console-limited: "&c控制台只能使用 /xygui reload 和 /xygui give。"
+  console-limited: "&c控制台只能使用 /xygui reload、/xygui give 和 /xygui update。"
   search-prompt: "&a请输入搜索关键词（输入 cancel 取消）"
   search-cancelled: "&7已取消搜索。"
   search-usage: "&c用法: /xygui i search <关键词>"
@@ -14,10 +14,14 @@ messages:
   mob-search-not-supported: "&c怪物图鉴暂不支持搜索。"
   inventory-full: "&c你的背包已满！"
   reload-mythic-start: "&e正在重载 MythicMobs，稍后会同步刷新 XyGui..."
-  reload-success: "&aXyGui 配置、物品缓存、怪物缓存和消息文件已重载。"
+  reload-success: "&aXyGui 配置、物品缓存、怪物缓存、物品更新规则和消息文件已重载。"
   reload-synced-after-mythic: "&a检测到 MythicMobs 重载，XyGui 已同步刷新。"
   give-usage: "&c用法: /xygui give <玩家名> <物品名> [数量]"
   give-success: "&a成功将 &6%amount% 个 &6%item% &a给予 &6%player%"
   player-not-found: "&c目标玩家不在线或不存在。"
   item-not-found: "&c找不到名为 '&f%item%&c' 的 MythicMobs 物品。"
   item-generate-failed: "&c生成物品失败，请检查物品配置。"
+  update-usage: "&c用法: /xygui update <check|scan> <玩家>"
+  update-check-result: "&a检测完成：&f%player% &a身上有 &f%amount% &a个可更新物品。"
+  update-scan-result: "&a更新完成：已处理 &f%player% &a身上 &f%amount% &a个物品。"
+  update-items-updated: "&a你身上有 &f%amount% &a个 MythicMobs 物品已同步到最新配置。"

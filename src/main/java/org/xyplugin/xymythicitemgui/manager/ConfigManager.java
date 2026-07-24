@@ -116,4 +116,32 @@ public class ConfigManager {
         String order = config.getString("sort.mob.order", "asc");
         return order.equalsIgnoreCase("asc");
     }
+
+    public boolean isItemUpdateEnabled() {
+        return config.getBoolean("item-update.enabled", true);
+    }
+
+    public boolean isItemUpdateScanOnJoin() {
+        return config.getBoolean("item-update.scan-on-join", true);
+    }
+
+    public boolean isItemUpdateScanAfterReload() {
+        return config.getBoolean("item-update.scan-after-reload", true);
+    }
+
+    public int getItemUpdateJoinDelayTicks() {
+        return config.getInt("item-update.join-delay-ticks", 60);
+    }
+
+    public int getItemUpdatePlayersPerTick() {
+        return config.getInt("item-update.players-per-tick", 1);
+    }
+
+    public int getItemUpdateQueueIntervalTicks() {
+        return config.getInt("item-update.queue-interval-ticks", 1);
+    }
+
+    public boolean isItemUpdateNotifyPlayer() {
+        return config.getBoolean("item-update.notify-player", true);
+    }
 }

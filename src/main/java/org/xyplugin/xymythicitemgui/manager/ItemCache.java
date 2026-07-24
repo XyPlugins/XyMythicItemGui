@@ -76,6 +76,11 @@ public class ItemCache {
     }
 
     public ItemStack getItemStack(String internalName) {
+        ItemStack item = getRawItemStack(internalName);
+        return ItemUpdateManager.getInstance().markIfEnabled(internalName, item);
+    }
+
+    public ItemStack getRawItemStack(String internalName) {
         Optional<MythicItem> opt = MythicMobs.inst().getItemManager().getItem(internalName);
         return opt.map(item -> BukkitAdapter.adapt(item.generateItemStack(1))).orElse(null);
     }

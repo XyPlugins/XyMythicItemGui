@@ -21,7 +21,11 @@ public class ReloadManager {
         ConfigManager.getInstance().loadConfig();
         ItemCache.getInstance().reload();
         MobManager.getInstance().reload();
+        ItemUpdateManager.getInstance().reload();
         MessageManager.getInstance().reload();
+        if (ConfigManager.getInstance().isItemUpdateScanAfterReload()) {
+            ItemUpdateManager.getInstance().queueOnlinePlayers();
+        }
 
         if (sender != null) {
             MessageUtil.send(sender, "reload-success");

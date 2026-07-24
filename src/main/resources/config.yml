@@ -1,4 +1,4 @@
-# 插件设置
+﻿# 插件设置
 # 聊天消息前缀请在 Message.yml 的 prefix 中修改。
 plugins:
   prefix: "&7[&6XyGui&7]"
@@ -34,6 +34,17 @@ gui:
     name: " "
   item-display:
     show-lore: true
+
+# MythicMobs 物品自动更新系统
+# 这里开启的是扫描系统；单个 MM 物品仍必须在物品配置中写 XyUpdate.Enabled: true 才会被更新。
+item-update:
+  enabled: true
+  scan-on-join: true            # 玩家进服后延迟扫描
+  scan-after-reload: true       # /xygui reload 或 /mm reload 后扫描在线玩家
+  join-delay-ticks: 60          # 进服后延迟 3 秒扫描，避免和其他插件抢数据
+  players-per-tick: 1           # 每次队列只处理几个玩家，建议大服保持 1
+  queue-interval-ticks: 1       # 队列处理间隔
+  notify-player: true           # 玩家物品被更新时是否提示
 
 # 搜索设置
 search:
